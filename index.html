@@ -2,987 +2,315 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎙️ KOTRA 실시간 통역 Pro</title>
-<meta name="theme-color" content="#0f172a">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOTRA 실시간 통역 Pro - 로그인</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root {
-    --bg:#0f172a;--surface:#1e293b;--surface2:#334155;
-    --blue:#3b82f6;--green:#22c55e;--red:#ef4444;
-    --yellow:#fbbf24;--text:#f1f5f9;--muted:#94a3b8;--dim:#64748b;
-    --purple:#a855f7;--orange:#f97316;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 50px 40px;
+  max-width: 420px;
+  width: 100%;
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo-icon {
+  font-size: 64px;
+  margin-bottom: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.logo-sub {
+  font-size: 14px;
+  color: #888;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.form-select, .form-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.form-select:focus, .form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+.btn-signup {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #667eea;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+}
+
+.btn-signup:hover {
+  background: #f0f4ff;
+  transform: translateY(-2px);
+}
+
+.btn-signup:active {
+  transform: translateY(0);
+}
+
+.info-box {
+  margin-top: 30px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.info-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 8px;
+}
+
+.info-text {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.demo-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #ffc107;
+  color: #333;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-left: 8px;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 40px 24px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:520px;margin:0 auto;overflow-x:hidden}
-
-  .header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--surface);position:sticky;top:0;background:var(--bg);z-index:20}
-  .header-title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
-  .header-actions{display:flex;gap:8px}
-  .btn-sm{background:var(--surface2);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-size:13px;cursor:pointer;font-weight:600;transition:all .15s}
-  .btn-sm:hover{opacity:.85}.btn-sm.active{background:var(--blue)}
-  .btn-sm.key-set{background:#15803d}
-
-  .lang-bar{padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:16px;background:var(--surface)}
-  .lang-badge{background:var(--surface2);border-radius:14px;padding:10px 20px;font-weight:700;font-size:15px;border:none;color:var(--text)}
-  .lang-badge.selectable{border:2px solid var(--blue);cursor:pointer}
-  .lang-swap{font-size:22px;color:var(--blue)}
-  .lang-picker{background:var(--surface);padding:8px 20px 16px;display:flex;gap:8px;justify-content:center;animation:slideDown .2s ease}
-  .lang-option{background:var(--surface2);border:2px solid transparent;border-radius:12px;padding:10px 18px;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
-  .lang-option.selected{background:var(--blue);border-color:#60a5fa}
-  .lang-option:hover{border-color:var(--blue)}
-
-  .mode-tabs{display:flex;background:#162032;border-bottom:1px solid #1a2540}
-  .mode-tab{flex:1;padding:12px;text-align:center;font-size:14px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--dim);transition:all .2s;border-bottom:3px solid transparent}
-  .mode-tab.active{color:var(--text);border-bottom-color:var(--purple);background:rgba(168,85,247,.08)}
-
-  .engine-bar{padding:8px 20px;background:#111827;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--dim)}
-  .engine-select{background:var(--surface2);border:1px solid #475569;border-radius:8px;padding:4px 10px;color:var(--text);font-size:12px;font-weight:600;cursor:pointer}
-
-  .error-bar{margin:8px 20px;padding:12px 16px;background:#7f1d1d;border-radius:12px;font-size:13px;color:#fca5a5}
-
-  .auto-status{padding:16px 20px;text-align:center}
-  .auto-status-badge{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border-radius:50px;font-size:15px;font-weight:700}
-  .auto-status-badge.detecting{background:rgba(168,85,247,.12);border:2px solid var(--purple);color:var(--purple);animation:autoGlow 2s ease-in-out infinite}
-  .auto-status-badge.heard-ko{background:rgba(59,130,246,.12);border:2px solid var(--blue);color:var(--blue)}
-  .auto-status-badge.heard-foreign{background:rgba(34,197,94,.12);border:2px solid var(--green);color:var(--green)}
-  .auto-status-badge.busy{background:rgba(251,191,36,.12);border:2px solid var(--yellow);color:var(--yellow);animation:none}
-  .auto-dot{width:10px;height:10px;border-radius:50%;animation:blink 1s infinite}
-
-  /* Volume Meter */
-  .volume-meter{margin:10px auto 0;width:200px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
-  .volume-fill{height:100%;background:var(--green);border-radius:3px;transition:width 50ms;width:0}
-
-  .translation-area{padding:16px 20px}
-  .trans-card{border-radius:18px;padding:18px 20px;margin-bottom:10px;border-left:4px solid}
-  .trans-card.original-me{background:#1a2744;border-color:var(--blue)}
-  .trans-card.original-them{background:#1a3a2a;border-color:var(--green)}
-  .trans-card.translated-me{background:#1a3a2a;border-color:var(--green)}
-  .trans-card.translated-them{background:#1a2744;border-color:var(--blue)}
-  .trans-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-  .trans-text{font-size:20px;font-weight:700;line-height:1.6;min-height:30px}
-  .trans-result{font-size:26px;font-weight:800;line-height:1.5;min-height:36px;color:var(--yellow)}
-  .trans-placeholder{color:var(--dim);font-size:16px;font-weight:400}
-  .waveform{display:flex;gap:5px;justify-content:center;margin-top:12px;height:24px;align-items:flex-end}
-  .wave-bar{width:4px;border-radius:2px;animation:wave .5s ease-in-out infinite alternate}
-  .wave-bar:nth-child(1){animation-delay:0s}.wave-bar:nth-child(2){animation-delay:.1s}
-  .wave-bar:nth-child(3){animation-delay:.2s}.wave-bar:nth-child(4){animation-delay:.3s}
-  .wave-bar:nth-child(5){animation-delay:.15s}
-  .spinner{width:18px;height:18px;border:2.5px solid var(--surface2);border-top-color:var(--yellow);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
-  .translating-anim{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:15px}
-  .speaking-indicator{margin-top:10px;font-size:13px;color:var(--blue);display:flex;align-items:center;gap:8px}
-  .pulse-icon{animation:pulse 1s infinite}
-  .btn-stop-speak{background:var(--red);border:none;border-radius:6px;padding:3px 10px;color:#fff;font-size:11px;cursor:pointer;font-weight:600}
-
-  .history{flex:1;overflow-y:auto;padding:0 20px;padding-bottom:220px}
-  .empty-state{text-align:center;padding:40px 20px;color:var(--dim)}
-  .empty-icon{font-size:48px;margin-bottom:14px}
-  .empty-title{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--muted)}
-  .empty-desc{font-size:13px;line-height:1.7}
-  .history-item{margin-bottom:10px;padding:14px 16px;background:var(--surface);border-radius:14px;border-left:3px solid;animation:fadeIn .3s ease}
-  .history-item.from-ko{border-color:var(--blue)}.history-item.from-foreign{border-color:var(--green)}
-  .history-meta{display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;color:var(--dim)}
-  .history-original{font-size:14px;color:var(--muted);margin-bottom:4px;line-height:1.5}
-  .history-translated{font-size:17px;font-weight:700;color:var(--yellow);line-height:1.5}
-  .btn-replay{margin-top:8px;background:transparent;border:1px solid var(--surface2);border-radius:8px;padding:5px 12px;color:var(--dim);font-size:12px;cursor:pointer}
-  .btn-replay:hover{border-color:var(--blue);color:var(--blue)}
-
-  .bottom-controls{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:linear-gradient(transparent,var(--bg) 25%);padding:50px 20px 32px;z-index:20}
-  .btn-group{display:flex;gap:14px}
-  .btn-speak{flex:1;padding:20px 12px;border-radius:22px;border:none;color:#fff;font-size:16px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .2s;font-family:inherit}
-  .btn-speak:disabled{opacity:.35;cursor:not-allowed}
-  .btn-speak .icon{font-size:30px}.btn-speak .label{font-size:15px}.btn-speak .sublabel{font-size:11px;opacity:.75}
-  .btn-me{background:linear-gradient(135deg,#1d4ed8,#3b82f6);box-shadow:0 4px 24px rgba(59,130,246,.35)}
-  .btn-me:hover:not(:disabled){box-shadow:0 6px 32px rgba(59,130,246,.5);transform:translateY(-1px)}
-  .btn-me.recording{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 36px rgba(239,68,68,.45);animation:recordPulse 1.5s ease-in-out infinite}
-  .btn-them{background:linear-gradient(135deg,#15803d,#22c55e);box-shadow:0 4px 24px rgba(34,197,94,.35)}
-  .btn-them:hover:not(:disabled){box-shadow:0 6px 32px rgba(34,197,94,.5);transform:translateY(-1px)}
-  .btn-them.recording{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 36px rgba(239,68,68,.45);animation:recordPulse 1.5s ease-in-out infinite}
-
-  .btn-auto{width:100%;padding:22px;border-radius:22px;border:none;color:#fff;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:12px;transition:all .2s}
-  .btn-auto-start-main{background:linear-gradient(135deg,#6d28d9,#a855f7);box-shadow:0 4px 28px rgba(168,85,247,.4)}
-  .btn-auto-start-main:hover{box-shadow:0 6px 36px rgba(168,85,247,.55);transform:translateY(-1px)}
-  .btn-auto-stop{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 36px rgba(239,68,68,.3);animation:recordPulse 2s ease-in-out infinite}
-
-  @keyframes wave{0%{height:6px}100%{height:22px}}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes recordPulse{0%,100%{box-shadow:0 0 24px rgba(239,68,68,.3)}50%{box-shadow:0 0 48px rgba(239,68,68,.6)}}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-  @keyframes autoGlow{0%,100%{opacity:.8}50%{opacity:1}}
-  .credit{text-align:center;font-size:11px;color:var(--dim);padding:4px 0 12px;letter-spacing:.5px;font-weight:600}
-
-  .transcript-prompt{text-align:center;padding:24px 20px 100px;animation:fadeIn .3s ease;position:relative;z-index:10}
-  .transcript-prompt p{color:#fff;font-size:15px;margin-bottom:18px;font-weight:600}
-  .btn-transcript{background:linear-gradient(135deg,#0e7490,#06b6d4);border:none;border-radius:16px;padding:18px 36px;color:#fff;font-size:18px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 4px 24px rgba(6,182,212,.4);position:relative;z-index:11}
-  .btn-transcript:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(6,182,212,.45)}
-  .btn-transcript:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-  .transcript-result{margin:12px 20px 100px;padding:20px;background:var(--surface);border-radius:16px;border:1px solid #2d4a5e;animation:fadeIn .3s ease}
-  .transcript-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-  .transcript-title{font-size:16px;font-weight:800;color:#06b6d4}
-  .btn-copy{background:var(--surface2);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-size:12px;cursor:pointer;font-weight:600}
-  .btn-copy:hover{background:var(--blue)}
-  .btn-copy.copied{background:#15803d}
-  .transcript-body{font-size:14px;line-height:1.8;color:var(--text);white-space:pre-wrap}
-  .transcript-loading{text-align:center;padding:20px;color:var(--muted);font-size:15px}
-  .hidden{display:none!important}
-
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:flex;align-items:center;justify-content:center}
-  .modal-box{background:var(--surface);border-radius:20px;padding:28px;max-width:400px;width:90%}
-  .modal-box h3{margin-bottom:12px;font-size:16px}
-  .modal-box p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
-  .modal-box input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--surface2);background:var(--bg);color:var(--text);font-size:14px;margin-bottom:14px}
-  .modal-btns{display:flex;gap:8px}
-  .modal-btns button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:700;cursor:pointer;font-size:14px}
-  .modal-btn-ok{background:var(--blue);color:#fff}
-  .modal-btn-cancel{background:var(--surface2);color:#fff}
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-title"><span>🎙️</span><span>KOTRA 실시간 통역 Pro</span></div>
-  <div class="header-actions">
-    <button class="btn-sm" id="btnApiKey" onclick="showApiKeyModal()">🔑 API키</button>
-    <button class="btn-sm active" id="btnTTS" onclick="toggleTTS()">🔊</button>
-    <button class="btn-sm hidden" id="btnClear" onclick="clearAll()">초기화</button>
-  </div>
-</div>
-
-<div class="lang-bar">
-  <div class="lang-badge">🇰🇷 한국어</div>
-  <span class="lang-swap">⇄</span>
-  <button class="lang-badge selectable" id="targetLangBtn" onclick="toggleLangPicker()">🇺🇸 English ▾</button>
-</div>
-<div class="lang-picker hidden" id="langPicker">
-  <button class="lang-option selected" data-lang="en" onclick="selectLang('en')">🇺🇸 English</button>
-  <button class="lang-option" data-lang="ja" onclick="selectLang('ja')">🇯🇵 日本語</button>
-  <button class="lang-option" data-lang="zh" onclick="selectLang('zh')">🇨🇳 中文</button>
-</div>
-
-<div class="mode-tabs">
-  <button class="mode-tab active" id="tabManual" onclick="switchTab('manual')">🎤 수동 모드</button>
-  <button class="mode-tab" id="tabAuto" onclick="switchTab('auto')">🔄 자동 감지</button>
-</div>
-
-<div class="engine-bar">
-  <span>번역:</span>
-  <select class="engine-select" id="engineSelect" onchange="changeEngine()">
-    <option value="gpt">GPT-4o-mini (추천, 빠름)</option>
-    <option value="google">Google (무료)</option>
-    <option value="mymemory">MyMemory (무료)</option>
-    <option value="deepl">DeepL (API키)</option>
-  </select>
-</div>
-
-<div class="error-bar hidden" id="errorBar"></div>
-
-<div class="auto-status hidden" id="autoStatus">
-  <div class="auto-status-badge detecting" id="autoStatusBadge">
-    <div class="auto-dot" id="autoDot" style="background:var(--purple)"></div>
-    <span id="autoStatusText">🎤 대기 중 — 아무나 말씀하세요</span>
-  </div>
-  <div class="volume-meter hidden" id="volumeMeter"><div class="volume-fill" id="volumeFill"></div></div>
-</div>
-
-<div class="translation-area hidden" id="transArea">
-  <div class="trans-card" id="originalCard">
-    <div class="trans-label" id="originalLabel">원문</div>
-    <div class="trans-text" id="originalText"></div>
-    <div class="waveform hidden" id="waveform">
-      <div class="wave-bar" id="wb1"></div><div class="wave-bar" id="wb2"></div>
-      <div class="wave-bar" id="wb3"></div><div class="wave-bar" id="wb4"></div>
-      <div class="wave-bar" id="wb5"></div>
+<div class="login-container">
+  <div class="logo">
+    <div class="logo-icon">🎙️</div>
+    <div class="logo-text">
+      수출희망 1000<br>
+      통역 및 상담기록 자동화 시스템
+      <span class="demo-badge">DEMO</span>
     </div>
+    <div class="logo-sub">KOTRA AI 비즈니스 통역 플랫폼</div>
   </div>
-  <div class="trans-card" id="translatedCard">
-    <div class="trans-label" id="translatedLabel">번역</div>
-    <div class="trans-result" id="translatedText"></div>
-    <div class="speaking-indicator hidden" id="speakingIndicator">
-      <span class="pulse-icon">🔊</span> 음성 출력 중...
-      <button class="btn-stop-speak" onclick="stopSpeaking()">중지</button>
+
+  <form id="loginForm">
+    <div class="form-group">
+      <label class="form-label" for="companySelect">기업 선택</label>
+      <select class="form-select" id="companySelect" required>
+        <option value="">기업을 선택하세요</option>
+      </select>
     </div>
-  </div>
-</div>
 
-<div class="history" id="historyContainer">
-  <div class="empty-state" id="emptyState">
-    <div class="empty-icon">🌐</div>
-    <div class="empty-title">KOTRA 실시간 통역</div>
-    <div class="empty-desc">
-      <b>수동 모드:</b> 버튼으로 화자 선택 후 말하기<br>
-      <b>자동 감지:</b> AI가 언어를 자동 판별하여 즉시 통역<br><br>
-      🔑 먼저 OpenAI API 키를 설정해주세요
+    <div class="form-group">
+      <label class="form-label" for="passwordInput">비밀번호</label>
+      <input type="password" class="form-input" id="passwordInput" placeholder="비밀번호를 입력하세요" required>
     </div>
-  </div>
-</div>
 
-<!-- Transcript Prompt -->
-<div id="transcriptResult"></div>
-
-<!-- Manual Controls -->
-<div class="bottom-controls" id="manualControls">
-  <div class="credit">Success by WK Marketing Group</div>
-  <div class="btn-group">
-    <button class="btn-speak btn-me" id="btnMe" onclick="manualToggle('me')">
-      <span class="icon">🇰🇷</span>
-      <span class="label" id="btnMeLabel">내가 말하기</span>
-      <span class="sublabel" id="btnMeSub">한국어 → English</span>
+    <button type="submit" class="btn-login" id="loginBtn">
+      로그인
     </button>
-    <button class="btn-speak btn-them" id="btnThem" onclick="manualToggle('them')">
-      <span class="icon" id="btnThemIcon">🇺🇸</span>
-      <span class="label" id="btnThemLabel">상대가 말하기</span>
-      <span class="sublabel" id="btnThemSub">English → 한국어</span>
+    
+    <button type="button" class="btn-signup" onclick="alert('시연용이므로 곧 개발 예정입니다.')">
+      가입하기
     </button>
-  </div>
-  <button class="btn-auto" onclick="endConversation()" style="margin-top:10px;background:linear-gradient(135deg,#0e7490,#06b6d4);width:100%">📝 대화 종료 · 대화록 생성</button>
-</div>
-<div class="bottom-controls hidden" id="autoStartControls">
-  <div class="credit">Success by WK Marketing Group</div>
-  <button class="btn-auto btn-auto-start-main" onclick="startAutoMode()">🔄 자동 대화 시작</button>
-</div>
-<div class="bottom-controls hidden" id="autoRunControls">
-  <div class="credit">Success by WK Marketing Group</div>
-  <div style="display:flex;gap:10px;width:100%">
-    <button class="btn-auto btn-auto-stop" onclick="stopAutoMode()" style="flex:1">⏹️ 일시 중단</button>
-    <button class="btn-auto" onclick="endConversation()" style="flex:1;background:linear-gradient(135deg,#0e7490,#06b6d4)">📝 대화 종료</button>
-  </div>
-</div>
+  </form>
 
-<!-- API Key Modal -->
-<div class="hidden" id="apiKeyModal">
-  <div class="modal-overlay">
-    <div class="modal-box">
-      <h3>🔑 API 키 설정</h3>
-      <p><b>OpenAI API Key</b> (Whisper 음성인식용, 필수)<br>
-        <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--blue)">platform.openai.com/api-keys</a>
-      </p>
-      <input type="password" id="openaiKeyInput" placeholder="sk-...">
-      <p style="margin-top:4px"><b>DeepL API Key</b> (번역용, 선택)<br>
-        <a href="https://www.deepl.com/pro-api" target="_blank" style="color:var(--blue)">deepl.com/pro-api</a> — Google 무료 번역도 사용 가능
-      </p>
-      <input type="password" id="deeplKeyInput" placeholder="DeepL API Key (선택)">
-      <div class="modal-btns">
-        <button class="modal-btn-ok" onclick="saveApiKeys()">저장</button>
-        <button class="modal-btn-cancel" onclick="closeApiKeyModal()">닫기</button>
-      </div>
+  <div class="info-box">
+    <div class="info-title">💡 시연용 안내</div>
+    <div class="info-text">
+      이 시스템은 KOTRA 수출희망1000 사업 시연용입니다.<br>
+      기업을 선택하면 해당 기업의 샘플 상담 데이터를 확인할 수 있고 통역 시스템 및 상담 기록 테스트가 가능합니다.
     </div>
   </div>
 </div>
 
+<script src="sample-data.js"></script>
+<script src="utils.js"></script>
 <script>
-// ===== CONFIG =====
-const LANG = {
-  en: { name:"English", flag:"🇺🇸", tts:"en-US", gc:"en", dl:"EN", whisper:"english" },
-  ja: { name:"日本語", flag:"🇯🇵", tts:"ja-JP", gc:"ja", dl:"JA", whisper:"japanese" },
-  zh: { name:"中文", flag:"🇨🇳", tts:"zh-CN", gc:"zh-CN", dl:"ZH", whisper:"chinese" },
-};
-const WHISPER_LANG_MAP = { korean:"ko", english:"en", japanese:"ja", chinese:"zh", mandarin:"zh" };
+console.log('=== 로그인 페이지 로드 시작 ===');
 
-// Text-based language detection (overrides Whisper when confident)
-function detectLangFromText(text) {
-  const korean = (text.match(/[\uAC00-\uD7AF\u3131-\u3163]/g) || []).length;
-  const japanese = (text.match(/[\u3040-\u309F\u30A0-\u30FF]/g) || []).length; // hiragana+katakana
-  const chinese = (text.match(/[\u4E00-\u9FFF]/g) || []).length;
-  const latin = (text.match(/[a-zA-Z]/g) || []).length;
-  const total = text.replace(/[\s\d\p{P}]/gu, "").length || 1;
+const companySelect = document.getElementById('companySelect');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const loginForm = document.getElementById('loginForm');
+
+console.log('DOM 요소 확인:', {
+  companySelect: !!companySelect,
+  passwordInput: !!passwordInput,
+  loginBtn: !!loginBtn,
+  loginForm: !!loginForm
+});
+
+// 샘플 데이터 초기화
+initSampleData();
+
+// 기업 목록 로드
+console.log('기업 목록:', DEMO_COMPANIES);
+DEMO_COMPANIES.forEach(company => {
+  const option = document.createElement('option');
+  option.value = company.id;
+  option.textContent = company.name;
+  companySelect.appendChild(option);
+});
+console.log('기업 옵션 추가 완료');
+
+// 로그인 처리
+loginForm.addEventListener('submit', async function(e) {
+  console.log('로그인 폼 제출 시작');
+  e.preventDefault();
   
-  const koRatio = korean / total;
-  const jaRatio = japanese / total;
-  const zhRatio = chinese / total;
-  const enRatio = latin / total;
+  const companyId = companySelect.value;
+  const password = passwordInput.value;
   
-  // Need at least 30% confidence
-  if (koRatio > 0.3) return "ko";
-  if (jaRatio > 0.2) return "ja"; // hiragana/katakana is strong signal
-  if (enRatio > 0.5) return "en";
-  if (zhRatio > 0.3 && jaRatio < 0.1) return "zh";
-  return null; // uncertain, fall back to Whisper
-}
-
-// ===== STATE =====
-let tgtLang = "en", engine = "gpt", autoTTS = true, currentTab = "manual";
-// ★★★ 공유용: API 키를 여기에 입력하면 사용자가 키 입력 없이 바로 사용 가능 ★★★
-const EMBEDDED_KEY = ""; // 보안을 위해 API 키 제거됨 - 사용자가 직접 입력해야 함
-// ★★★ 위 키를 입력하면 API키 버튼이 숨겨지고 바로 사용 가능합니다 ★★★
-
-function cleanStored(k) { const v=localStorage.getItem(k)||''; let c=''; for(let i=0;i<v.length;i++){const x=v.charCodeAt(i);if(x>=33&&x<=126)c+=v[i];} return c; }
-let openaiKey = cleanStored("oai_k") || (EMBEDDED_KEY !== "여기에_OpenAI_API키_붙여넣기" ? EMBEDDED_KEY : "");
-let deeplKey = cleanStored("dl_k");
-
-// Audio state
-let audioCtx, analyser, micStream, mediaRecorder;
-let audioChunks = [];
-let chatLog = []; // {time, original, translated, fromLang, toLang}
-let recordingRmsSum = 0, recordingRmsCount = 0; // track average volume during recording
-
-// Whisper hallucination filter - known false outputs on silent audio
-const HALLUCINATION_PATTERNS = [
-  /^thank you for watching\.?$/i,
-  /^thanks for watching\.?$/i,
-  /^please subscribe\.?$/i,
-  /^like and subscribe\.?$/i,
-  /^don't forget to subscribe\.?$/i,
-  /^see you next time\.?$/i,
-  /^see you in the next video\.?$/i,
-  /^subtitles by the amara\.org community$/i,
-  /^チャンネル登録をお願いします\.?$/i,
-  /^ご視聴ありがとうございました\.?$/i,
-  /^感谢收看\.?$/i,
-  /^请订阅\.?$/i,
-  /^시청해\s*주셔서\s*감사합니다\.?$/i,
-  /^구독과\s*좋아요\s*부탁/i,
-  /^MBC\s*뉴스/i, /^KBS/i, /^SBS/i,
-  /^\s*\.+\s*$/, /^\s*,+\s*$/, /^\s*…+\s*$/,
-  /^\s*\.\.\.\s*$/,
-];
-
-// Manual
-let mRecording = false, mBusy = false, mMode = null;
-
-// Auto
-let autoRunning = false, autoBusy = false;
-let vadActive = false, vadSpeaking = false;
-let vadSilenceTimer = null, vadFrameId = null, vadRecordStart = 0;
-let vadVoiceStart = 0; // track continuous voice detection
-const VAD_VOICE_CONFIRM_MS = 200; // need 200ms continuous voice to start recording
-const VAD_THRESHOLD = 0.05;
-const SILENCE_MS = 2000;
-const MIN_RECORDING_MS = 1200; // ignore recordings shorter than this
-const POST_TTS_DELAY = 2000; // wait after TTS before resuming VAD
-
-const $ = id => document.getElementById(id);
-
-// ===== INIT =====
-function init() {
-  // Vercel Function 사용 - API 키 버튼 숨김
-  $("btnApiKey").style.display = "none";
+  console.log('입력값:', { companyId, password: password ? '입력됨' : '없음' });
   
-  // 안내 문구도 변경
-  const emptyDesc = $("emptyState").querySelector(".empty-desc");
-  if (emptyDesc) {
-    emptyDesc.innerHTML = `
-      <b>수동 모드:</b> 버튼으로 화자 선택 후 말하기<br>
-      <b>자동 감지:</b> AI가 언어를 자동 판별하여 즉시 통역<br><br>
-      🎤 준비 완료! 바로 사용 가능합니다
-    `;
-  }
-}
-init();
-
-// ===== API KEY =====
-function showApiKeyModal() {
-  $("apiKeyModal").classList.remove("hidden");
-  $("openaiKeyInput").value = openaiKey;
-  $("deeplKeyInput").value = deeplKey;
-}
-function closeApiKeyModal() { $("apiKeyModal").classList.add("hidden"); }
-function sanitizeKey(s) {
-  // Remove ALL non-ASCII and control characters, keep only printable ASCII
-  let clean = '';
-  for (let i = 0; i < s.length; i++) {
-    const c = s.charCodeAt(i);
-    if (c >= 33 && c <= 126) clean += s[i]; // printable ASCII only, no spaces
-  }
-  return clean;
-}
-function saveApiKeys() {
-  openaiKey = sanitizeKey($("openaiKeyInput").value);
-  deeplKey = sanitizeKey($("deeplKeyInput").value);
-  console.log('OpenAI key length:', openaiKey.length, 'starts:', openaiKey.substring(0,8));
-  console.log('DeepL key length:', deeplKey.length);
-  if (openaiKey) localStorage.setItem("oai_k", openaiKey);
-  if (deeplKey) localStorage.setItem("dl_k", deeplKey);
-  $("btnApiKey").classList.toggle("key-set", !!openaiKey);
-  closeApiKeyModal();
-}
-
-// ===== TAB =====
-function switchTab(tab) {
-  currentTab = tab;
-  $("tabManual").classList.toggle("active", tab==="manual");
-  $("tabAuto").classList.toggle("active", tab==="auto");
-  stopManual(); stopAutoMode();
-  $("manualControls").classList.toggle("hidden", tab!=="manual");
-  $("autoStartControls").classList.toggle("hidden", tab!=="auto");
-  $("autoRunControls").classList.add("hidden");
-  $("autoStatus").classList.add("hidden");
-}
-
-// ===== LANGUAGE =====
-function toggleLangPicker() { $("langPicker").classList.toggle("hidden"); }
-function selectLang(code) {
-  tgtLang = code; const l = LANG[code];
-  $("targetLangBtn").textContent = l.flag+" "+l.name+" ▾";
-  $("btnMeSub").textContent = "한국어 → "+l.name;
-  $("btnThemSub").textContent = l.name+" → 한국어";
-  $("btnThemIcon").textContent = l.flag;
-  document.querySelectorAll(".lang-option").forEach(el => el.classList.toggle("selected", el.dataset.lang===code));
-  $("langPicker").classList.add("hidden");
-}
-
-// ===== TTS =====
-function toggleTTS() { autoTTS=!autoTTS; $("btnTTS").textContent=autoTTS?"🔊":"🔇"; $("btnTTS").classList.toggle("active",autoTTS); }
-function speak(text, lang) {
-  return new Promise(resolve => {
-    if (!autoTTS) { setTimeout(resolve, 300); return; }
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang; u.rate = 0.95;
-    u.onstart = () => $("speakingIndicator").classList.remove("hidden");
-    u.onend = () => { $("speakingIndicator").classList.add("hidden"); resolve(); };
-    u.onerror = () => { $("speakingIndicator").classList.add("hidden"); resolve(); };
-    speechSynthesis.speak(u);
-  });
-}
-function stopSpeaking() { speechSynthesis.cancel(); $("speakingIndicator").classList.add("hidden"); }
-
-// ===== ENGINE =====
-function changeEngine() {
-  engine = $("engineSelect").value;
-  if (engine==="deepl" && !deeplKey) showApiKeyModal();
-}
-
-// ===== TRANSLATION =====
-async function translateGoogle(text, from, to) {
-  const gcMap = {ko:"ko",en:"en",ja:"ja",zh:"zh-CN"};
-  const f = gcMap[from]||from, t = gcMap[to]||to;
-  const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${f}&tl=${t}&dt=t&q=${encodeURIComponent(text)}`);
-  const d = await r.json(); return d[0].map(s=>s[0]).join("");
-}
-async function translateMyMemory(text, from, to) {
-  const f = from==="ko"?"ko":(LANG[from]?.gc||from), t = to==="ko"?"ko":(LANG[to]?.gc||to);
-  const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${f}|${t}`);
-  const d = await r.json(); return d.responseData.translatedText;
-}
-async function translateDeepl(text, from, to) {
-  if (!deeplKey) throw new Error("DeepL API 키 필요");
-  const f = from==="ko"?"KO":(LANG[from]?.dl||"EN"), t = to==="ko"?"KO":(LANG[to]?.dl||"EN");
-  const key = deeplKey.trim();
-  const url = key.endsWith(":fx")?"https://api-free.deepl.com/v2/translate":"https://api.deepl.com/v2/translate";
-  const h = new Headers(); h.set("Content-Type","application/json"); h.set("Authorization","DeepL-Auth-Key "+key);
-  const r = await fetch(url, { method:"POST", headers:h,
-    body:JSON.stringify({text:[text],source_lang:f,target_lang:t}) });
-  const d = await r.json(); return d.translations?.[0]?.text||"오류";
-}
-async function doTranslate(text, from, to) {
-  if (engine==="gpt") return translateGPT(text,from,to);
-  if (engine==="google") return translateGoogle(text,from,to);
-  if (engine==="mymemory") return translateMyMemory(text,from,to);
-  if (engine==="deepl") return translateDeepl(text,from,to);
-}
-async function translateGPT(text, from, to) {
-  // Vercel Function 호출
-  const r = await fetch("/api/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, from, to })
-  });
-  if (!r.ok) { 
-    const e = await r.json().catch(()=>({})); 
-    throw new Error(e.error || "GPT API 오류"); 
-  }
-  const d = await r.json();
-  return d.text || "오류";
-}
-
-// ===== END CONVERSATION =====
-function endConversation() {
-  stopAutoMode();
-  stopManual();
-  if (chatLog.length > 0) {
-    // Remove any existing prompt
-    const old = document.getElementById("transcriptPromptCard");
-    if (old) old.remove();
-    // Insert transcript prompt into history area
-    const card = document.createElement("div");
-    card.id = "transcriptPromptCard";
-    card.className = "transcript-prompt";
-    card.innerHTML = `
-      <button onclick="this.parentElement.remove()" style="position:absolute;top:8px;right:12px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.6">✕</button>
-      <p>📝 대화가 종료되었습니다.<br>대화록을 만드시려면 아래 버튼을 눌러주세요</p>
-      <button class="btn-transcript" onclick="generateTranscript()">📋 한국어 대화록 생성</button>
-    `;
-    $("historyContainer").appendChild(card);
-    card.scrollIntoView({behavior:"smooth"});
-  } else {
-    showError("대화 내역이 없습니다. 먼저 대화를 진행해주세요.");
-  }
-}
-
-// ===== TRANSCRIPT GENERATION =====
-async function generateTranscript() {
-  if (chatLog.length === 0) return;
-  
-  $("btnTranscript") && ($("btnTranscript").disabled = true);
-  const promptCard = document.getElementById("transcriptPromptCard");
-  if (promptCard) promptCard.innerHTML = '<div class="transcript-loading"><span class="spinner"></span> GPT가 대화록을 작성하고 있습니다...</div>';
-  
-  // Build conversation data
-  const langNames = {ko:"한국어",en:"영어",ja:"일본어",zh:"중국어"};
-  const lines = chatLog.map((c,i) => {
-    const speaker = c.fromLang==="ko" ? "한국측" : "외국측";
-    const fromN = langNames[c.fromLang]||c.fromLang;
-    const toN = langNames[c.toLang]||c.toLang;
-    return `[${c.time}] ${speaker} (${fromN}): ${c.original}\n→ ${toN} 번역: ${c.translated}`;
-  }).join("\n\n");
-  
-  const today = new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"long"});
-  
-  try {
-    // Vercel Function 호출
-    const r = await fetch("/api/transcript", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chatLog, today })
-    });
-    
-    if (!r.ok) { 
-      const e = await r.json().catch(()=>({})); 
-      throw new Error(e.error || "GPT API 오류"); 
-    }
-    const d = await r.json();
-    const transcript = d.transcript || "대화록 생성 실패";
-    
-    if (promptCard) promptCard.innerHTML = `
-      <div class="transcript-result">
-        <div class="transcript-header">
-          <span class="transcript-title">📋 통역 대화록</span>
-          <div>
-            <button class="btn-copy" onclick="copyTranscript(this)">📄 복사</button>
-            <button class="btn-copy" onclick="this.closest('.transcript-prompt').remove()" style="margin-left:6px">✕ 닫기</button>
-          </div>
-        </div>
-        <div class="transcript-body" id="transcriptBody">${escHtml(transcript)}</div>
-      </div>`;
-    if (promptCard) promptCard.scrollIntoView({behavior:"smooth"});
-  } catch(e) {
-    if (promptCard) promptCard.innerHTML = '<div class="error-bar">⚠️ 대화록 생성 실패: '+escHtml(e.message)+'</div>';
-  }
-  
-}
-
-function copyTranscript(btn) {
-  const text = $("transcriptBody").textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = "✅ 복사됨!";
-    btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = "📄 복사"; btn.classList.remove("copied"); }, 2000);
-  });
-}
-
-
-async function whisperTranscribe(audioBlob, langHint) {
-  // Blob을 Base64로 변환
-  const arrayBuffer = await audioBlob.arrayBuffer();
-  const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-  
-  // Vercel Function 호출
-  const r = await fetch("/api/transcribe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      audioBase64: base64,
-      langHint: langHint
-    })
-  });
-  
-  if (!r.ok) {
-    const err = await r.json().catch(()=>({}));
-    throw new Error(err.error || "Whisper API 오류 ("+r.status+")");
-  }
-  const d = await r.json();
-  return { text: d.text || "", language: d.language || "unknown" };
-}
-
-// ===== MIC / AUDIO =====
-async function initMic() {
-  if (micStream) return;
-  micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const source = audioCtx.createMediaStreamSource(micStream);
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 512;
-  source.connect(analyser);
-}
-
-function startRecording() {
-  audioChunks = [];
-  recordingRmsSum = 0; recordingRmsCount = 0;
-  mediaRecorder = new MediaRecorder(micStream, { mimeType: "audio/webm;codecs=opus" });
-  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-  mediaRecorder.start(100); // collect every 100ms
-  // Sample RMS during recording
-  const sampleRms = () => {
-    if (!mediaRecorder || mediaRecorder.state === "inactive") return;
-    recordingRmsSum += getRMS(); recordingRmsCount++;
-    setTimeout(sampleRms, 100);
-  };
-  sampleRms();
-}
-
-function getRecordingAvgRms() {
-  return recordingRmsCount > 0 ? recordingRmsSum / recordingRmsCount : 0;
-}
-
-function isHallucination(text) {
-  const t = text.trim();
-  if (t.length < 3) return true; // too short
-  return HALLUCINATION_PATTERNS.some(p => p.test(t));
-}
-
-function stopRecording() {
-  return new Promise(resolve => {
-    if (!mediaRecorder || mediaRecorder.state === "inactive") { resolve(null); return; }
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(audioChunks, { type: "audio/webm" });
-      resolve(blob.size > 1000 ? blob : null); // min 1KB to be valid
-    };
-    mediaRecorder.stop();
-  });
-}
-
-function getRMS() {
-  if (!analyser) return 0;
-  const buf = new Uint8Array(analyser.frequencyBinCount);
-  analyser.getByteTimeDomainData(buf);
-  let sum = 0;
-  for (let i = 0; i < buf.length; i++) { const v = (buf[i] - 128) / 128; sum += v * v; }
-  return Math.sqrt(sum / buf.length);
-}
-
-// ===== UI HELPERS =====
-function showTransArea(who) {
-  $("transArea").classList.remove("hidden");
-  const es = $("emptyState"); if (es) es.classList.add("hidden");
-  const l = LANG[tgtLang];
-  if (who === "me") {
-    $("originalCard").className = "trans-card original-me";
-    $("translatedCard").className = "trans-card translated-me";
-    $("originalLabel").textContent = "🇰🇷 원문 (나)";
-    $("translatedLabel").textContent = l.flag + " 번역";
-  } else {
-    $("originalCard").className = "trans-card original-them";
-    $("translatedCard").className = "trans-card translated-them";
-    $("originalLabel").textContent = l.flag + " 원문 (상대)";
-    $("translatedLabel").textContent = "🇰🇷 번역";
-  }
-}
-function showWaveform(on, color) {
-  $("waveform").classList.toggle("hidden", !on);
-  if (on) for (let i=1;i<=5;i++) $("wb"+i).style.background = color;
-}
-function showError(m) { $("errorBar").textContent = "⚠️ "+m; $("errorBar").classList.remove("hidden"); }
-function hideError() { $("errorBar").classList.add("hidden"); }
-function escHtml(t) { const d=document.createElement("div");d.textContent=t;return d.innerHTML; }
-function addHistory(orig, trans, fromLang, toLang) {
-  const time = new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"});
-  chatLog.push({time, original:orig, translated:trans, fromLang, toLang});
-  const l = LANG[tgtLang]; const isKo = fromLang==="ko";
-  $("btnClear").classList.remove("hidden");
-  const item = document.createElement("div");
-  item.className = "history-item "+(isKo?"from-ko":"from-foreign");
-  const ttsL = toLang==="ko"?"ko-KR":(LANG[tgtLang]?.tts||"en-US");
-  const safe = trans.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\n/g," ");
-  item.innerHTML = '<div class="history-meta"><span>'+(isKo?"🇰🇷→"+l.flag:l.flag+"→🇰🇷")+
-    '</span><span>'+time+'</span></div><div class="history-original">'+escHtml(orig)+
-    '</div><div class="history-translated">'+escHtml(trans)+
-    '</div><button class="btn-replay" onclick="replayTTS(\''+safe+"','"+ttsL+"')\">🔊 다시 듣기</button>";
-  $("historyContainer").appendChild(item);
-  item.scrollIntoView({behavior:"smooth"});
-}
-function replayTTS(t,l) { speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.95;speechSynthesis.speak(u); }
-function clearAll() {
-  chatLog = [];
-  const old = document.getElementById("transcriptPromptCard");
-  if (old) old.remove();
-  $("historyContainer").innerHTML = '<div class="empty-state" id="emptyState"><div class="empty-icon">🌐</div><div class="empty-title">KOTRA 실시간 통역</div><div class="empty-desc"><b>수동 모드:</b> 버튼으로 화자 선택 후 말하기<br><b>자동 감지:</b> AI가 언어를 자동 판별하여 즉시 통역</div></div>';
-  $("transArea").classList.add("hidden"); $("btnClear").classList.add("hidden");
-}
-function setAutoStatus(type, text) {
-  const badge = $("autoStatusBadge"); const dot = $("autoDot");
-  badge.className = "auto-status-badge "+type;
-  $("autoStatusText").textContent = text;
-  const colors = {detecting:"var(--purple)",["heard-ko"]:"var(--blue)",["heard-foreign"]:"var(--green)",busy:"var(--yellow)"};
-  dot.style.background = colors[type]||"var(--purple)";
-}
-
-// ============================================================
-// MANUAL MODE (Whisper-based)
-// ============================================================
-async function manualToggle(who) {
-  if (mRecording && mMode===who) { stopManual(); return; }
-  if (mRecording || mBusy) return;
-  // Vercel Function 사용 - API 키 체크 불필요
-  hideError(); mMode = who;
-  showTransArea(who);
-  $("originalText").innerHTML = '<span class="trans-placeholder">🎤 듣고 있습니다...</span>';
-  $("translatedText").textContent = "";
-  
-  try {
-    await initMic();
-    startRecording();
-    mRecording = true;
-    setManualUI(true);
-    showWaveform(true, who==="me"?"var(--blue)":"var(--green)");
-    
-    // Monitor silence for auto-stop
-    let silenceStart = null;
-    const checkSilence = () => {
-      if (!mRecording) return;
-      const rms = getRMS();
-      if (rms < VAD_THRESHOLD) {
-        if (!silenceStart) silenceStart = Date.now();
-        else if (Date.now() - silenceStart > SILENCE_MS) { finishManual(); return; }
-      } else { silenceStart = null; }
-      requestAnimationFrame(checkSilence);
-    };
-    // Give 1s grace before monitoring silence
-    setTimeout(() => { if (mRecording) checkSilence(); }, 1000);
-  } catch(e) { showError("마이크 오류: "+e.message); }
-}
-
-async function finishManual() {
-  if (!mRecording) return;
-  mRecording = false;
-  setManualUI(false);
-  showWaveform(false);
-  
-  const blob = await stopRecording();
-  if (!blob) return;
-  
-  mBusy = true;
-  $("originalText").innerHTML = '<span class="translating-anim"><span class="spinner"></span> 음성 인식 중...</span>';
-  
-  try {
-    const langHint = mMode==="me"?"ko":(LANG[tgtLang]?.whisper ? undefined : undefined);
-    // For manual mode, hint the expected language
-    const hintCode = mMode==="me" ? "ko" : (tgtLang==="en"?"en":tgtLang==="ja"?"ja":"zh");
-    const {text, language} = await whisperTranscribe(blob, hintCode);
-    
-    if (!text.trim()) { $("originalText").innerHTML='<span class="trans-placeholder">인식된 내용 없음</span>'; mBusy=false; return; }
-    
-    $("originalText").textContent = text;
-    const fromLang = mMode==="me"?"ko":tgtLang;
-    const toLang = mMode==="me"?tgtLang:"ko";
-    const ttsLang = mMode==="me"?LANG[tgtLang].tts:"ko-KR";
-    
-    $("translatedText").innerHTML = '<span class="translating-anim"><span class="spinner"></span> 번역 중...</span>';
-    const result = await doTranslate(text, fromLang, toLang);
-    $("translatedText").textContent = result;
-    addHistory(text, result, fromLang, toLang);
-    await speak(result, ttsLang);
-  } catch(e) { showError(e.message); }
-  mBusy = false;
-}
-
-function stopManual() {
-  mRecording = false; setManualUI(false); showWaveform(false);
-  if (mediaRecorder && mediaRecorder.state!=="inactive") mediaRecorder.stop();
-}
-
-function setManualUI(on) {
-  const l = LANG[tgtLang];
-  if (on && mMode==="me") {
-    $("btnMe").classList.add("recording"); $("btnMeLabel").textContent="⏹️ 중지"; $("btnThem").disabled=true;
-  } else if (on && mMode==="them") {
-    $("btnThem").classList.add("recording"); $("btnThemLabel").textContent="⏹️ 중지"; $("btnMe").disabled=true;
-  } else {
-    $("btnMe").classList.remove("recording"); $("btnThem").classList.remove("recording");
-    $("btnMeLabel").textContent="내가 말하기"; $("btnThemLabel").textContent="상대가 말하기";
-    $("btnMe").disabled=false; $("btnThem").disabled=false;
-  }
-}
-
-// ============================================================
-// AUTO MODE (Whisper + VAD)
-// ============================================================
-async function startAutoMode() {
-  // Vercel Function 사용 - API 키 체크 불필요
-  hideError();
-  
-  try {
-    await initMic();
-  } catch(e) { showError("마이크 오류: "+e.message); return; }
-  
-  autoRunning = true; autoBusy = false;
-  const oldPrompt = document.getElementById("transcriptPromptCard");
-  if (oldPrompt) oldPrompt.remove();
-  $("autoStartControls").classList.add("hidden");
-  $("autoRunControls").classList.remove("hidden");
-  $("autoStatus").classList.remove("hidden");
-  $("volumeMeter").classList.remove("hidden");
-  setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
-  
-  startVAD();
-}
-
-function stopAutoMode() {
-  autoRunning = false; autoBusy = false;
-  stopVAD();
-  speechSynthesis.cancel();
-  if (mediaRecorder && mediaRecorder.state!=="inactive") try{mediaRecorder.stop();}catch(e){}
-  $("autoStatus").classList.add("hidden");
-  $("volumeMeter").classList.add("hidden");
-  $("autoRunControls").classList.add("hidden");
-  $("speakingIndicator").classList.add("hidden");
-  showWaveform(false);
-  if (currentTab==="auto") $("autoStartControls").classList.remove("hidden");
-}
-
-function startVAD() {
-  vadActive = true; vadSpeaking = false; vadVoiceStart = 0;
-  
-  const monitor = () => {
-    if (!vadActive || !autoRunning) return;
-    const rms = getRMS();
-    
-    // Update volume meter
-    const pct = Math.min(rms * 500, 100);
-    $("volumeFill").style.width = pct + "%";
-    $("volumeFill").style.background = rms > VAD_THRESHOLD ? "var(--green)" : "var(--surface2)";
-    
-    if (!autoBusy) {
-      if (rms > VAD_THRESHOLD) {
-        // Voice detected
-        if (!vadSpeaking) {
-          if (!vadVoiceStart) vadVoiceStart = Date.now();
-          // Only start recording after continuous voice for VAD_VOICE_CONFIRM_MS
-          if (Date.now() - vadVoiceStart >= VAD_VOICE_CONFIRM_MS) {
-            vadSpeaking = true;
-            vadRecordStart = Date.now();
-            clearTimeout(vadSilenceTimer);
-            setAutoStatus("detecting", "🎤 음성 감지 — 녹음 중...");
-            showWaveform(true, "var(--purple)");
-            startRecording();
-          }
-        }
-        // Reset silence timer
-        clearTimeout(vadSilenceTimer);
-        vadSilenceTimer = setTimeout(() => {
-          if (vadSpeaking && autoRunning) {
-            vadSpeaking = false;
-            showWaveform(false);
-            const duration = Date.now() - vadRecordStart;
-            if (duration < MIN_RECORDING_MS) {
-              // Too short, ignore (likely noise)
-              if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-              audioChunks = [];
-              console.log('Ignored short audio:', duration + 'ms');
-              return;
-            }
-            processAutoRecording();
-          }
-        }, SILENCE_MS);
-      } else {
-        // Below threshold - reset voice confirmation
-        vadVoiceStart = 0;
-      }
-    }
-    
-    vadFrameId = requestAnimationFrame(monitor);
-  };
-  monitor();
-}
-
-function stopVAD() {
-  vadActive = false; vadSpeaking = false;
-  clearTimeout(vadSilenceTimer);
-  if (vadFrameId) cancelAnimationFrame(vadFrameId);
-}
-
-async function processAutoRecording() {
-  autoBusy = true;
-  const blob = await stopRecording();
-  
-  if (!blob) {
-    autoBusy = false;
-    setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
+  if (!companyId) {
+    alert('기업을 선택해주세요.');
     return;
   }
   
-  setAutoStatus("busy", "⏳ AI 음성 인식 중...");
-  $("transArea").classList.remove("hidden");
-  const es = $("emptyState"); if (es) es.classList.add("hidden");
-  $("originalText").innerHTML = '<span class="translating-anim"><span class="spinner"></span> Whisper 인식 중...</span>';
-  $("translatedText").textContent = "";
+  // 비밀번호 검증
+  if (password !== '1234') {
+    alert('비밀번호가 올바르지 않습니다.');
+    return;
+  }
+  
+  console.log('비밀번호 검증 통과');
+  
+  const company = DEMO_COMPANIES.find(c => c.id === companyId);
+  console.log('선택된 기업:', company);
+  
+  const userName = `${company.name} 수출 담당자`;
+  console.log('사용자명 생성:', userName);
   
   try {
-    // Whisper: no language hint = auto-detect!
-    const { text, language } = await whisperTranscribe(blob);
+    // Supabase에 세션 생성
+    console.log('세션 생성 중...');
+    const session = await createSession(companyId, company.name, userName);
     
-    if (!text.trim()) {
-      autoBusy = false;
-      setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
-      return;
+    if (!session) {
+      throw new Error('세션 생성 실패');
     }
     
-    // Filter Whisper hallucinations
-    if (isHallucination(text)) {
-      console.log('🚫 Filtered hallucination:', text);
-      autoBusy = false;
-      setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
-      return;
-    }
+    console.log('✅ 세션 생성 완료:', session.sessionId);
     
-    console.log('✅ Accepted:', text);
-    
-    // Determine direction from detected language
-    // Double-check with text analysis to prevent Korean/Japanese confusion
-    const whisperLang = WHISPER_LANG_MAP[language] || language;
-    const textLang = detectLangFromText(text);
-    const detectedLang = textLang || whisperLang; // text analysis takes priority
-    console.log('Whisper:', JSON.stringify({text, language, whisperLang, textLang, detectedLang, tgtLang}));
-    const isKorean = detectedLang === "ko";
-    // Use actual detected language for translation source, not just tgtLang
-    const fromLang = isKorean ? "ko" : detectedLang;
-    const toLang = isKorean ? tgtLang : "ko";
-    const who = isKorean ? "me" : "them";
-    const ttsLang = isKorean ? LANG[tgtLang].tts : "ko-KR";
-    console.log('Translation direction:', fromLang, '→', toLang);
-    
-    showTransArea(who);
-    $("originalText").textContent = text;
-    
-    if (isKorean) {
-      setAutoStatus("heard-ko", "🇰🇷 한국어 감지 → " + LANG[tgtLang].flag + " 번역 중");
-    } else {
-      setAutoStatus("heard-foreign", LANG[tgtLang].flag + " " + (language||"외국어") + " 감지 → 🇰🇷 번역 중");
-    }
-    
-    $("translatedText").innerHTML = '<span class="translating-anim"><span class="spinner"></span> 번역 중...</span>';
-    const result = await doTranslate(text, fromLang, toLang);
-    
-    if (!autoRunning) return;
-    $("translatedText").textContent = result;
-    addHistory(text, result, fromLang, toLang);
-    
-    // TTS — pause VAD during playback to prevent feedback
-    stopVAD();
-    await speak(result, ttsLang);
-    
-    // Wait extra time after TTS to prevent echo pickup
-    await new Promise(r => setTimeout(r, POST_TTS_DELAY));
-    
-    // Resume
-    if (autoRunning) {
-      autoBusy = false;
-      setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
-      startVAD();
-    }
-  } catch(e) {
-    showError(e.message);
-    if (autoRunning) {
-      autoBusy = false;
-      setAutoStatus("detecting", "🎤 대기 중 — 아무나 말씀하세요");
-      if (!vadActive) startVAD();
-    }
+    // 대시보드로 이동
+    console.log('대시보드로 이동 시작');
+    window.location.href = 'dashboard.html';
+  } catch (error) {
+    console.error('로그인 처리 중 에러:', error);
+    alert('로그인 처리 중 오류가 발생했습니다: ' + error.message);
   }
+});
+
+console.log('이벤트 리스너 등록 완료');
+
+// 이미 로그인된 경우 대시보드로 리다이렉트
+const currentUser = getCurrentUser();
+if (currentUser) {
+  console.log('이미 로그인됨, 대시보드로 이동:', currentUser);
+  window.location.href = 'dashboard.html';
 }
 
+console.log('=== 로그인 페이지 로드 완료 ===');
 </script>
+
 </body>
 </html>
