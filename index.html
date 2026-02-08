@@ -304,7 +304,7 @@ function detectLangFromText(text) {
 }
 
 // ===== STATE =====
-let tgtLang = "en", engine = "google", autoTTS = true, currentTab = "manual";
+let tgtLang = "en", engine = "gpt", autoTTS = true, currentTab = "manual";
 // ★★★ 공유용: API 키를 여기에 입력하면 사용자가 키 입력 없이 바로 사용 가능 ★★★
 const EMBEDDED_KEY = ""; // 보안을 위해 API 키 제거됨 - 사용자가 직접 입력해야 함
 // ★★★ 위 키를 입력하면 API키 버튼이 숨겨지고 바로 사용 가능합니다 ★★★
@@ -716,7 +716,7 @@ function setAutoStatus(type, text) {
 async function manualToggle(who) {
   if (mRecording && mMode===who) { stopManual(); return; }
   if (mRecording || mBusy) return;
-  if (!openaiKey) { showApiKeyModal(); return; }
+  // Vercel Function 사용 - API 키 체크 불필요
   hideError(); mMode = who;
   showTransArea(who);
   $("originalText").innerHTML = '<span class="trans-placeholder">🎤 듣고 있습니다...</span>';
@@ -801,7 +801,7 @@ function setManualUI(on) {
 // AUTO MODE (Whisper + VAD)
 // ============================================================
 async function startAutoMode() {
-  if (!openaiKey) { showApiKeyModal(); return; }
+  // Vercel Function 사용 - API 키 체크 불필요
   hideError();
   
   try {
